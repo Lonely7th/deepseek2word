@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeepSeek Exporter - 轻松沉淀 DeepSeek 智慧，一键导出多种格式文档</title>
+  <title>DeepSeek2Word - 一键导出DeepSeek对话为Word/Excel/PDF</title>
+  <meta name="description"
+    content="轻量、简洁、易操作。完整保留LaTeX公式、代码高亮、表格与标题层级，支持Edge/Chrome/360/火狐四大浏览器一键导出Word/Excel/PDF/Markdown等格式。">
   <meta property="og:title" content="DeepSeek Exporter - AI转Word">
   <meta property="og:description"
     content="DeepSeek Exporter 是专为 DeepSeek 打造的效率插件。完美还原代码高亮、LaTeX 公式与表格层级。支持 Word、PDF、Markdown 等 7 种格式导出，让你的 AI 对话秒变专业文档。">
@@ -12,8 +14,6 @@
   <meta property="og:url" content="https://www.aibusgo.com/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
-  <meta name="description"
-    content="DeepSeek Exporter 是专为 DeepSeek 打造的效率插件。完美还原代码高亮、LaTeX 公式与表格层级。支持 Word、PDF、Markdown 等 7 种格式导出，让你的 AI 对话秒变专业文档。" />
   <meta name="keywords"
     content="DeepSeek Exporter,DeepSeek-Exporter,AI公式转Word,LaTeX公式转Word,Markdown转Word,DeepSeek转Word,AI对话转Word,DeepSeek2Word,DeepShare,Chat2File">
   <link rel="canonical" href="https://www.aibusgo.com/">
@@ -27,19 +27,23 @@
     rel="stylesheet" />
   <style>
     :root {
-      --primary-color: #4D6BFE;
-      --primary-hover: #3a55e0;
-      --secondary-color: #8B5CF6;
-      /* 紫色辅助色 */
-      --text-main: #1F2937;
-      --text-secondary: #6B7280;
-      --bg-white: #FFFFFF;
-      --bg-light: #F8F9FA;
-      --border-color: #E5E7EB;
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      --card-shadow-hover: 0 12px 40px rgba(77, 107, 254, 0.2);
-      --gradient-primary: linear-gradient(135deg, #4D6BFE 0%, #8B5CF6 100%);
-      --gradient-bg: linear-gradient(180deg, #F0F6FF 0%, #FFFFFF 100%);
+      --primary-color: #2563eb;
+      /* 纯色主色调 */
+      --primary-hover: #1d4ed8;
+      /* 按钮悬停色 */
+      --secondary-color: #0f172a;
+      --accent-color: #0ea5e9;
+      --bg-dark: #0f172a;
+      --bg-light: #f8fafc;
+      --text-dark: #1e293b;
+      --text-light: #64748b;
+      --white: #ffffff;
+      --gradient-text: linear-gradient(90deg, #3b82f6, #06b6d4, #3b82f6);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.3);
+      --radius: 16px;
     }
 
     * {
@@ -49,10 +53,13 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-      color: var(--text-main);
-      background-color: var(--bg-white);
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+      color: var(--text-dark);
+      background-color: var(--bg-light);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 50%);
       overflow-x: hidden;
     }
 
@@ -61,1262 +68,853 @@
       color: inherit;
     }
 
-    /* FAQ Section */
-    .faq-section {
-      background-color: var(--bg-light);
-    }
-
-    .faq-list {
-      max-width: 820px;
-      margin: 0 auto;
-    }
-
-    .faq-item {
-      background: white;
-      border-radius: 14px;
-      margin-bottom: 16px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      border: 1px solid transparent;
-      transition: all 0.3s ease;
-    }
-
-    .faq-item:hover {
-      border-color: rgba(77, 107, 254, 0.2);
-    }
-
-    .faq-item.active {
-      border-color: var(--primary-color);
-      box-shadow: var(--card-shadow-hover);
-    }
-
-    .faq-question {
-      padding: 22px 28px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: var(--text-main);
-    }
-
-    .faq-question span:first-child {
-      padding-right: 20px;
-    }
-
-    .faq-icon {
-      flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: var(--primary-color);
-      transition: transform 0.3s ease;
-    }
-
-    .faq-item.active .faq-icon {
-      transform: rotate(45deg);
-      /* "+" 变成 "x" */
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
-      padding: 0 28px;
-      color: var(--text-secondary);
-      font-size: 0.98rem;
-      line-height: 1.7;
-    }
-
-    .faq-item.active .faq-answer {
-      max-height: 600px;
-      /* 确保足以容纳最长回答 */
-      padding-bottom: 24px;
-    }
-
-    .faq-answer p {
-      margin: 0;
-    }
-
-
     .container {
-      max-width: 1200px;
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 0 24px;
-      position: relative;
-      z-index: 2;
+      padding: 0 20px;
     }
 
-    /* Navbar */
-    .navbar {
-      position: fixed;
+    /* --- 滚动渐现动效 --- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 导航栏 */
+    nav {
+      position: sticky;
       top: 0;
-      left: 0;
-      width: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.5);
       z-index: 1000;
       transition: all 0.3s ease;
-      padding: 20px 0;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid transparent;
     }
 
-    .navbar.scrolled {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
-      padding: 12px 0;
-    }
-
-    .nav-content {
+    .nav-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      height: 70px;
     }
 
     .logo {
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 800;
+      color: var(--primary-color);
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #000000;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     .nav-links {
       display: flex;
-      align-items: center;
-      gap: 32px;
+      gap: 30px;
+      list-style: none;
     }
 
     .nav-links a {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      transition: color 0.2s;
+      color: var(--text-light);
+      font-weight: 500;
+      transition: color 0.3s;
       position: relative;
     }
 
-    .nav-links a:not(.btn):hover {
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: var(--primary-color);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
       color: var(--primary-color);
     }
 
-    .nav-links a:not(.btn)::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--gradient-primary);
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:not(.btn):hover::after {
+    .nav-links a:hover::after {
       width: 100%;
     }
 
-    /* Buttons with Glow & Shine Effect */
-    .btn {
-      padding: 12px 28px;
-      border-radius: 10px;
-      font-size: 0.95rem;
+    /* 修改为纯色按钮 */
+    .nav-btn {
+      background: var(--primary-color);
+      color: var(--white);
+      padding: 10px 24px;
+      border-radius: 8px;
       font-weight: 600;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      position: relative;
-      overflow: hidden;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-md);
     }
 
-    .btn-primary {
-      background: var(--gradient-primary);
-      color: white;
+    .nav-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+      color: var(--white);
+    }
+
+    /* Hero 首屏 */
+    .hero {
+      padding: 100px 0 80px;
+      position: relative;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      color: var(--secondary-color);
+    }
+
+    .hero h1 .gradient-text {
+      background: var(--gradient-text);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shineText 3s linear infinite;
+    }
+
+    @keyframes shineText {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      margin-bottom: 35px;
+      max-width: 600px;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    /* 按钮基础和悬停效果 */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      background: var(--white);
+      color: var(--secondary-color);
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+      color: var(--primary-color);
+    }
+
+    /* 纯色主按钮 */
+    .btn-download.primary {
+      background: var(--primary-color);
+      color: var(--white);
       border: none;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(77, 107, 254, 0.5);
+    .btn-download.primary:hover {
+      background: var(--primary-hover);
+      box-shadow: var(--shadow-glow);
+      color: var(--white);
     }
 
-    /* Shine sweep effect */
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: all 0.6s;
+    .trust-badge {
+      display: flex;
+      gap: 20px;
+      font-size: 0.95rem;
+      color: var(--text-light);
+      flex-wrap: wrap;
     }
 
-    .btn-primary:hover::before {
-      left: 100%;
+    .trust-badge span::before {
+      content: "✓";
+      color: #10b981;
+      margin-right: 6px;
+      font-weight: bold;
     }
 
-    .btn-outline {
-      background-color: rgba(255, 255, 255, 0.6);
-      color: var(--primary-color);
-      border: 1px solid rgba(77, 107, 254, 0.3);
-    }
-
-    .btn-outline:hover {
-      background-color: white;
-      border-color: var(--primary-color);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(77, 107, 254, 0.1);
-    }
-
-    .menu-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .menu-toggle span {
-      width: 24px;
-      height: 2px;
-      background: var(--text-main);
-      transition: 0.3s;
-    }
-
-    /* Hero Section with Tech Background */
-    .hero {
-      padding: 180px 0 80px;
-      text-align: center;
-      background: var(--gradient-bg);
+    /* Hero 视觉区：自定义图片预留 */
+    .hero-visual {
+      flex: 1;
       position: relative;
-      overflow: hidden;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* Grid Pattern */
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: linear-gradient(rgba(77, 107, 254, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(77, 107, 254, 0.05) 1px, transparent 1px);
-      background-size: 40px 40px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, #000 70%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, #000 70%, transparent 100%);
-      z-index: 1;
+    .visual-card {
+      background: var(--white);
+      padding: 15px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      width: 100%;
+      max-width: 400px;
+      z-index: 2;
+      animation: float 6s ease-in-out infinite;
     }
 
-    /* Floating Blobs */
-    .blob {
+    .hero-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .glow-orb {
       position: absolute;
+      width: 300px;
+      height: 300px;
+      background: var(--primary-color);
       border-radius: 50%;
       filter: blur(80px);
-      z-index: 0;
-      animation: float 10s infinite ease-in-out;
-    }
-
-    .blob-1 {
-      width: 500px;
-      height: 500px;
-      background: rgba(77, 107, 254, 0.15);
-      top: -100px;
-      left: -100px;
-    }
-
-    .blob-2 {
-      width: 400px;
-      height: 400px;
-      background: rgba(139, 92, 246, 0.15);
-      bottom: -50px;
-      right: -50px;
-      animation-delay: -5s;
+      opacity: 0.15;
+      z-index: 1;
+      animation: pulse 4s ease-in-out infinite;
     }
 
     @keyframes float {
 
       0%,
       100% {
-        transform: translate(0, 0) scale(1);
+        transform: translateY(0);
       }
 
       50% {
-        transform: translate(30px, 30px) scale(1.1);
+        transform: translateY(-15px);
       }
     }
 
-    .hero h1 {
-      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-      font-size: 3.4rem;
-      font-weight: 800;
-      margin-bottom: 24px;
-      line-height: 1.2;
-      letter-spacing: -1px;
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.15;
+      }
+
+      50% {
+        transform: scale(1.1);
+        opacity: 0.3;
+      }
     }
 
-    .feature-des-img {
-      width: 600px;
-      height: 400px;
-      border-radius: 10px;
-    }
-
-    .hero h1 span {
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--text-secondary);
-      max-width: 960px;
-      margin: 0 auto 40px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .hero-cta-link {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      display: inline-block;
-      margin-top: 16px;
-      transition: color 0.2s;
-    }
-
-    .hero-cta-link:hover {
-      color: var(--primary-color);
-    }
-
-    /* Image Placeholder with Glow Border */
-    .image-placeholder {
-      background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #64748B;
-      font-size: 0.9rem;
-      margin-top: 60px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-      width: 688px;
-      margin-left: auto;
-      margin-right: auto;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Animated glowing border */
-    .image-placeholder::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: var(--gradient-primary);
-      z-index: -1;
-      border-radius: 18px;
-      opacity: 0;
-      filter: blur(10px);
-      transition: opacity 0.3s;
-    }
-
-    .image-placeholder:hover::after {
-      opacity: 0.6;
-    }
-
-    /* Generic Section Styles */
+    /* 通用 Section 样式 */
     section {
-      padding: 100px 0;
-      position: relative;
+      padding: 80px 0;
     }
 
     .section-title {
       text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
       font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
+      color: var(--secondary-color);
+      margin-bottom: 15px;
     }
 
-    .section-subtitle {
-      text-align: center;
+    .section-title p {
+      color: var(--text-light);
       font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 640px;
-      margin: 0 auto 64px;
     }
 
-    /* Install Section */
-    .install-grid {
+    /* 特性卡片 */
+    .feature-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
     }
 
-    .browser-card {
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 32px 24px;
-      text-align: center;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .card {
+      background: var(--white);
+      padding: 35px;
+      border-radius: var(--radius);
+      border: 1px solid #e2e8f0;
+      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
       position: relative;
       overflow: hidden;
     }
 
-    /* Background shine on hover */
-    .browser-card::before {
+    .card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      right: 0;
       height: 4px;
-      background: var(--gradient-primary);
+      background: var(--primary-color);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.4s;
+      transition: transform 0.4s ease;
     }
 
-    .browser-card:hover {
-      border-color: transparent;
-      box-shadow: var(--card-shadow-hover);
+    .card:hover {
       transform: translateY(-8px);
-      background: white;
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
     }
 
-    .browser-card:hover::before {
+    .card:hover::before {
       transform: scaleX(1);
     }
 
-    .browser-icon {
-      width: 64px;
-      height: 64px;
-      background: var(--bg-light);
-      border-radius: 50%;
-      margin: 0 auto 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
+    .card-icon {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      display: inline-block;
       transition: transform 0.3s;
     }
 
-    .browser-card:hover .browser-icon {
-      transform: scale(1.1) rotate(5deg);
-      background: rgba(77, 107, 254, 0.1);
+    .card:hover .card-icon {
+      transform: scale(1.1) rotate(-5deg);
     }
 
-    .browser-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
+    .card h3 {
+      margin-bottom: 12px;
+      color: var(--secondary-color);
+      font-size: 1.3rem;
     }
 
-    .browser-card p {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-      min-height: 48px;
+    .card p {
+      color: var(--text-light);
+      font-size: 1rem;
     }
 
-    /* Pain Points */
-    .pain-points {
-      background-color: var(--bg-light);
+    /* 浏览器支持区 */
+    .browsers {
+      background: var(--white);
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
     }
 
-    .cards-grid-3 {
+    .browser-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      text-align: center;
     }
 
-    .point-card {
-      background: white;
-      padding: 36px;
-      border-radius: 16px;
-      border: 1px solid transparent;
-      box-shadow: var(--card-shadow);
+    .browser-card {
+      background: var(--bg-light);
+      padding: 35px 20px;
+      border-radius: var(--radius);
       transition: all 0.3s;
     }
 
-    .point-card:hover {
-      border-color: rgba(77, 107, 254, 0.3);
-      transform: translateY(-5px);
+    .browser-card:hover {
+      background: var(--white);
+      box-shadow: var(--shadow-md);
     }
 
-    .point-icon {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
+    .browser-logo {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
+    }
+
+    .browser-card:hover .browser-logo {
+      transform: scale(1.2);
+    }
+
+    .browser-card h4 {
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+    }
+
+    .browser-card a {
       display: inline-block;
-    }
-
-    .point-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 12px;
-    }
-
-    .point-card p {
-      color: var(--text-secondary);
+      padding: 10px 25px;
+      background: var(--secondary-color);
+      color: var(--white);
+      border-radius: 8px;
       font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s;
     }
 
-    /* Features Section */
-    .feature-item {
+    .browser-card a:hover {
+      background: var(--primary-color);
+      box-shadow: var(--shadow-glow);
+    }
+
+    /* 教程步骤 */
+    .steps {
       display: flex;
-      align-items: center;
-      gap: 80px;
-      margin-bottom: 120px;
+      justify-content: space-between;
+      gap: 30px;
+      position: relative;
     }
 
-    .feature-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .feature-item.reverse {
-      flex-direction: row-reverse;
-    }
-
-    .feature-text h3 {
-      font-size: 2rem;
-      margin-bottom: 24px;
-      background: #000000;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-
-    .feature-text p {
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-      line-height: 1.8;
-    }
-
-    .feature-img {
+    .step {
       flex: 1;
-      min-height: 360px;
-    }
-
-    /* Scenarios */
-    .scenarios {
-      background-color: var(--bg-light);
-    }
-
-    .scenario-card {
-      background: white;
-      padding: 36px;
-      border-radius: 16px;
-      box-shadow: var(--card-shadow);
+      background: var(--white);
+      padding: 40px 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      position: relative;
+      z-index: 1;
       transition: all 0.3s;
-      border-top: 4px solid transparent;
     }
 
-    .scenario-card:hover {
+    .step:hover {
       transform: translateY(-5px);
-      border-top-color: var(--primary-color);
-      box-shadow: var(--card-shadow-hover);
+      box-shadow: var(--shadow-lg);
     }
 
-    .scenario-card h3 {
-      font-size: 1.3rem;
-      margin-bottom: 12px;
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0 auto 20px;
+      box-shadow: var(--shadow-glow);
     }
 
-    .scenario-card p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 0;
+      cursor: pointer;
     }
 
-    /* Privacy Section with High Tech Vibe */
-    .privacy-section {
-      background: radial-gradient(circle at top left, #4D6BFE, #2A3990 80%);
-      color: white;
-      border-radius: 24px;
-      padding: 80px 40px;
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--secondary-color);
+      font-size: 1.1rem;
+    }
+
+    .faq-question::after {
+      content: "+";
+      font-size: 1.8rem;
+      color: var(--text-light);
+      transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-question::after {
+      transform: rotate(45deg);
+      color: var(--primary-color);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), padding 0.4s ease;
+      color: var(--text-light);
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      padding-top: 15px;
+    }
+
+    /* 底部CTA */
+    .final-cta {
+      background: var(--bg-dark);
+      color: var(--white);
       text-align: center;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 20px 50px rgba(42, 57, 144, 0.3);
     }
 
-    /* Glowing dots decoration */
-    .privacy-section::before,
-    .privacy-section::after {
+    .final-cta::before {
       content: '';
       position: absolute;
-      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.2), transparent 60%);
+      top: 0;
+      left: 0;
+    }
+
+    .final-cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .final-cta .btn-download {
       background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--white);
+      backdrop-filter: blur(5px);
     }
 
-    .privacy-section::before {
-      width: 300px;
-      height: 300px;
-      top: -150px;
-      right: -50px;
-    }
-
-    .privacy-section::after {
-      width: 200px;
-      height: 200px;
-      bottom: -100px;
-      left: -50px;
-    }
-
-    .privacy-section h2 {
-      font-size: 2.8rem;
-      margin-bottom: 24px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .privacy-section p {
-      font-size: 1.1rem;
-      max-width: 700px;
-      margin: 0 auto;
-      opacity: 0.9;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Bottom CTA */
-    .cta-section {
-      text-align: center;
+    .final-cta .btn-download:hover {
+      background: var(--white);
+      color: var(--bg-dark);
+      border-color: var(--white);
     }
 
     /* Footer */
     footer {
-      background-color: #111827;
-      color: #9CA3AF;
-      padding: 60px 0 30px;
+      background: #020617;
+      color: #64748b;
+      padding: 50px 0;
+      font-size: 0.95rem;
     }
 
     .footer-content {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 40px;
-      margin-bottom: 40px;
+      gap: 20px;
+      align-items: center;
     }
 
-    .footer-col h4 {
-      color: white;
-      margin-bottom: 16px;
-      font-size: 1rem;
+    .footer-links a {
+      margin-left: 20px;
+      color: #94a3b8;
+      transition: color 0.3s;
     }
 
-    .footer-col a {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-      color: #9CA3AF;
-      transition: color 0.2s;
+    .footer-links a:hover {
+      color: var(--white);
     }
 
-    .footer-col a:hover {
-      color: var(--primary-color);
-    }
-
-    .footer-bottom {
-      border-top: 1px solid #374151;
-      padding-top: 30px;
-      text-align: center;
-      font-size: 0.85rem;
-    }
-
-    /* Responsive */
-    @media (max-width: 968px) {
+    /* 响应式调整 */
+    @media (max-width: 768px) {
       .nav-links {
         display: none;
-        position: absolute;
-        top: 70px;
-        left: 0;
+      }
+
+      .hero-content {
+        flex-direction: column-reverse;
+      }
+
+      .hero-visual {
         width: 100%;
-        background: white;
+        height: auto;
+        margin-bottom: 40px;
+      }
+
+      .visual-card {
+        max-width: 300px;
+      }
+
+      .steps {
         flex-direction: column;
-        padding: 20px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: flex;
       }
 
       .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
       }
 
-      .install-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .section-title h2,
+      .final-cta h2 {
+        font-size: 1.8rem;
       }
-
-      .cards-grid-3 {
-        grid-template-columns: 1fr;
-      }
-
-      .feature-item,
-      .feature-item.reverse {
-        flex-direction: column;
-        gap: 40px;
-      }
-
-      .feature-text {
-        text-align: center;
-      }
-
-      .feature-img {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .install-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .privacy-section {
-        padding: 50px 20px;
-      }
-
-      .privacy-section h2 {
-        font-size: 2rem;
-      }
-    }
-
-    /* Scroll Animation */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="container nav-content">
-      <a href="#" class="logo">
-        <img src="images/logo.png" style="width: 40px; height: 40px;"> DeepSeek Exporter
-      </a>
-      <div class="nav-links" id="navLinks">
-        <a href="#install">安装插件</a>
-        <a href="#features">功能特性</a>
-        <a href="#scenarios">应用场景</a>
-        <a href="https://www.aiwhaler.com/" target="_blank" class="btn btn-primary" style="color: #fff;">在线使用</a>
-      </div>
-      <div class="menu-toggle" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </div>
+  <!-- 导航栏 -->
+  <nav>
+    <div class="container nav-container">
+      <div class="logo">🐋 DeepSeek2Word</div>
+      <ul class="nav-links">
+        <li><a href="#features">功能特性</a></li>
+        <li><a href="#browsers">浏览器支持</a></li>
+        <li><a href="#guide">使用教程</a></li>
+        <li><a href="#faq">常见问题</a></li>
+      </ul>
+      <a href="#download" class="nav-btn">立即安装</a>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="container">
-      <h1>轻松沉淀 DeepSeek 智慧<br><span>一键导出多种格式文档</span></h1>
-      <p>DeepSeek Exporter 是专为 DeepSeek 打造的效率插件。完美还原代码高亮、LaTeX 公式与表格层级。支持 Word、PDF、Markdown 等 7 种格式导出，让你的 AI 对话秒变专业文档。
-      </p>
-      <div class="hero-buttons">
-        <!-- <a href="https://www.aiwhaler.com/" target="_blank" class="btn btn-primary">在线使用</a> -->
-        <a href="#install" class="btn btn-outline" style="padding: 20px 100px;">⬇ 安装插件</a>
-      </div>
-      <a href="#features" class="hero-cta-link">查看功能演示 →</a>
+  <!-- Hero 首屏 -->
+  <header class="hero" id="download">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1>一键将 DeepSeek 对话导出为<br><span class="gradient-text">Word / Excel / PDF</span></h1>
+        <p>轻量、简洁、易操作。完整保留 LaTeX 公式、代码高亮、表格与标题层级，支持四大主流浏览器。</p>
 
-      <div class="image-placeholder">
-        <img src="images/banner-1.png" style="width: 688px; height: 438px;">
+        <div class="cta-group">
+          <a href="https://microsoftedge.microsoft.com/addons/detail/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/mdkigambfjjaflodcfgidocoheoinhha"
+            class="btn-download primary" target="_blank">📥 安装到 Edge</a>
+          <a href="#" class="btn-download" target="_blank">📥 Chrome</a>
+          <a href="#" class="btn-download" target="_blank">📥 360 浏览器</a>
+          <a href="#" class="btn-download" target="_blank">📥 火狐 Firefox</a>
+        </div>
+
+        <div class="trust-badge">
+          <span>不收集个人数据</span>
+          <span>支持 8+ 种格式</span>
+          <span>免费安装</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="glow-orb"></div>
+        <div class="visual-card">
+          <!-- 预留自定义图片位置：请替换 src 为你的图片路径 -->
+          <img src="your-custom-image.png" alt="DeepSeek2Word 插件一键导出 Word 和 Excel 演示" class="hero-image">
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Install Section -->
-  <section id="install" class="fade-in">
+  <!-- 核心功能特性 -->
+  <section id="features">
     <div class="container">
-      <h2 class="section-title">选择你的浏览器，一键安装</h2>
-      <p class="section-subtitle">全面支持主流浏览器，无论你常用哪一款，都能获得一致的流畅体验。</p>
-      <div class="install-grid">
-        <div class="browser-card">
-          <div class="browser-icon"><img src="images/lowcode-2406140.png" style="width: 40px; height: 40px;"></div>
-          <h3>Chrome</h3>
-          <p>适配 Chrome 88 及以上版本，从 Chrome 应用商店一键添加。</p>
-          <a href="https://chromewebstore.google.com/detail/%E9%B2%B8%E9%B1%BCai%E5%8A%A9%E6%89%8B-deepseek%E5%AF%BC%E5%87%BAword/foegcdhddlencjjkaeonjahfcdlmlihl"
-            target="_blank" class="btn btn-outline" style="width:100%">添加到 Chrome</a>
-        </div>
-        <div class="browser-card">
-          <div class="browser-icon"><img src="images/lowcode-2406134.png" style="width: 40px; height: 40px;"></div>
-          <h3>Edge</h3>
-          <p>适配 Microsoft Edge 88 及以上版本，从 Edge 扩展商店安装。</p>
-          <a href="https://microsoftedge.microsoft.com/addons/detail/%E9%B2%B8%E9%B1%BCai%E5%8A%A9%E6%89%8B/lgfpicokhhemdpohohdlffponcillpfa"
-            class="btn btn-outline" target="_blank" style="width:100%">添加到 Edge</a>
-        </div>
-        <div class="browser-card">
-          <div class="browser-icon"><img src="images/lowcode-2406123.png" style="width: 40px; height: 40px;"></div>
-          <h3>360 浏览器</h3>
-          <p>适配 360 极速浏览器与 360 安全浏览器，从 360 扩展中心安装。</p>
-          <a href="https://ext.se.360.cn/#/extension-detail?id=hgahdgilffiglaefnmnkoclmigdaighg" class="btn btn-outline"
-            target="_blank" style="width:100%">添加到 360</a>
-        </div>
-        <div class="browser-card">
-          <div class="browser-icon"><img src="images/lowcode-2458186.jfif" style="width: 40px; height: 40px;"></div>
-          <h3>Firefox 火狐</h3>
-          <p>适配 Firefox 109 及以上版本，从 Firefox 附加组件商店安装。</p>
-          <a href="https://addons.mozilla.org/zh-CN/firefox/addon/deepseek%E5%AF%BC%E5%87%BAword-%E9%B2%B8%E9%B1%BCai%E5%8A%A9%E6%89%8B/"
-            class="btn btn-outline" target="_blank" style="width:100%">添加到 Firefox</a>
-        </div>
+      <div class="section-title reveal">
+        <h2>为什么选择 DeepSeek2Word？</h2>
+        <p>专为高频使用 DeepSeek 的学生、研究者、程序员和办公人群设计</p>
       </div>
-      <p style="text-align:center; margin-top:32px; color:var(--text-secondary); font-size:0.9rem;">
-        不同浏览器的安装方式略有差异，若商店安装失败，可下载离线安装包手动加载。
-      </p>
-    </div>
-  </section>
-
-  <!-- Pain Points -->
-  <section class="pain-points fade-in">
-    <div class="container">
-      <h2 class="section-title">告别复制粘贴，重塑你的 AI 知识管理</h2>
-      <div class="cards-grid-3" style="margin-top: 64px;">
-        <div class="point-card">
-          <div class="point-icon"><img src="images/icon-1.png" style="width: 46px; height: 46px;"></div>
-          <h3>完美还原排版</h3>
-          <p>完整保留代码高亮、LaTeX 公式对齐、复杂表格与标题层级，导出即定稿，告别格式错乱。</p>
+      <div class="feature-grid">
+        <div class="card reveal">
+          <span class="card-icon">📄</span>
+          <h3>多格式一键导出</h3>
+          <p>支持 Word、Excel、PDF、HTML、Markdown、JSON 等 8+ 格式，覆盖文档归档、技术记录与数据分析全场景。</p>
         </div>
-        <div class="point-card">
-          <div class="point-icon"><img src="images/icon-3.png" style="width: 46px; height: 46px;"></div>
-          <h3>深度思考留存</h3>
-          <p>不仅导出答案，DeepSeek的“深度思考”过程也能一键打包带走，不漏掉任何逻辑推演。</p>
+        <div class="card reveal">
+          <span class="card-icon">🧮</span>
+          <h3>复杂排版原样保留</h3>
+          <p>完整保留标题层级、列表结构、LaTeX 公式、代码高亮，生成的 Word 文档完全可编辑。</p>
         </div>
-        <div class="point-card">
-          <div class="point-icon"><img src="images/icon-2.png" style="width: 46px; height: 46px;"></div>
-          <h3>知识闭环管理</h3>
-          <p>从高亮标注、本地收藏到私密云盘，打造专属于你的 DeepSeek 第二大脑。</p>
+        <div class="card reveal">
+          <span class="card-icon">📊</span>
+          <h3>表格自动转 Excel</h3>
+          <p>自动识别 AI 回答中的表格数据，一键保存为标准 .xlsx 文件，表头自动高亮，告别手动复制粘贴。</p>
+        </div>
+        <div class="card reveal">
+          <span class="card-icon">📚</span>
+          <h3>单条与批量导出</h3>
+          <p>支持将单条 AI 回答导出，也支持整段或多段对话批量导出，灵活适配你的整理需求。</p>
+        </div>
+        <div class="card reveal">
+          <span class="card-icon">🚀</span>
+          <h3>轻量简洁零学习</h3>
+          <p>安装包极小，不占用内存，无广告无冗余功能。点击插件图标即可导出，真正开箱即用。</p>
+        </div>
+        <div class="card reveal">
+          <span class="card-icon">🔒</span>
+          <h3>安全隐私无忧</h3>
+          <p>所有对话内容仅在本地处理，绝不上传服务器。插件不收集任何个人数据，保护你的隐私。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Core Features -->
-  <section id="features" class="fade-in">
+  <!-- 浏览器支持 -->
+  <section id="browsers" class="browsers">
     <div class="container">
-      <h2 class="section-title">强大的核心功能</h2>
-      <p class="section-subtitle">为深度使用 DeepSeek 的你量身打造</p>
-
-      <!-- Feature 1 -->
-      <div class="feature-item">
-        <div class="feature-text">
-          <h3>全能格式导出</h3>
-          <p>一键将 DeepSeek 对话转化为 Word (.docx)、PDF、Excel、HTML、ipynb、JSON、PNG 格式。无论你是写报告、做笔记还是做数据分析，总有一款格式适合你。</p>
-        </div>
-        <img src="images/banner-1.png" class="feature-des-img">
+      <div class="section-title reveal">
+        <h2>四大浏览器全覆盖</h2>
+        <p>选择你常用的浏览器，一键安装体验</p>
       </div>
-
-      <!-- Feature 2 -->
-      <div class="feature-item reverse">
-        <div class="feature-text">
-          <h3>深度定制偏好设置</h3>
-          <p>你的文档你做主。自定义文档样式，调整 LaTeX 公式对齐（居中/居左），一键删除多余的分隔线与 Emoji 表情，甚至开启自动修复 Markdown 格式错误，让导出文档更专业。</p>
+      <div class="browser-grid">
+        <div class="browser-card reveal">
+          <div class="browser-logo">🧭</div>
+          <h4>Microsoft Edge</h4>
+          <a href="https://microsoftedge.microsoft.com/addons/detail/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/mdkigambfjjaflodcfgidocoheoinhha"
+            target="_blank">立即安装</a>
         </div>
-        <img src="images/banner-2.png" class="feature-des-img">
-      </div>
-
-      <!-- Feature 3 -->
-      <div class="feature-item">
-        <div class="feature-text">
-          <h3>深度思考一键导出</h3>
-          <p>DeepSeek 的思考过程充满了启发性。开启该功能，你可以将“深度思考”模式下的推理过程与最终回答一并导出，绝佳的复盘与学习资料。</p>
+        <div class="browser-card reveal">
+          <div class="browser-logo">🌐</div>
+          <h4>Google Chrome</h4>
+          <a href="#" target="_blank">立即安装</a>
         </div>
-        <img src="images/banner-3.png" class="feature-des-img">
-      </div>
-
-      <!-- Feature 4 -->
-      <div class="feature-item reverse">
-        <div class="feature-text">
-          <h3>高效批量导出</h3>
-          <p>面对大量优质对话，无需逐一操作。支持多选对话进行批量导出，极大提升整理效率，专为重度 AI 使用者设计。</p>
+        <div class="browser-card reveal">
+          <div class="browser-logo">🛡️</div>
+          <h4>360 浏览器</h4>
+          <a href="#" target="_blank">立即安装</a>
         </div>
-        <img src="images/banner-4.png" class="feature-des-img">
-      </div>
-
-      <!-- Feature 5 -->
-      <div class="feature-item">
-        <div class="feature-text">
-          <h3>高亮标注与内化</h3>
-          <p>像阅读电子书一样阅读 AI 的回答。拖选 DeepSeek 中的文字即可高亮，支持“普通、关注、重点、错误”4 个等级标记，帮你快速提取关键信息，构建阅读笔记。</p>
-        </div>
-        <img src="images/banner-5.png" class="feature-des-img">
-      </div>
-
-      <!-- Feature 6 -->
-      <div class="feature-item reverse">
-        <div class="feature-text">
-          <h3>智能收藏夹</h3>
-          <p>遇到好回答，一键加入收藏夹随时查阅。收藏夹内的内容支持批量导出为 Word 文档，让你的灵感库永不丢失。</p>
-        </div>
-        <img src="images/banner-6.png" class="feature-des-img">
-      </div>
-
-      <!-- Feature 7 -->
-      <div class="feature-item">
-        <div class="feature-text">
-          <h3>私密云盘与长期记忆</h3>
-          <p>每个用户配备大容量私密云盘。将导出的文档存入云盘，不仅方便跨设备下载，更可一键上传作为 DeepSeek 的专属知识库，打破上下文限制，赋予 DeepSeek 长期记忆能力。</p>
-        </div>
-        <img src="images/banner-7.png" class="feature-des-img">
-      </div>
-    </div>
-  </section>
-
-  <!-- Scenarios -->
-  <section id="scenarios" class="scenarios fade-in">
-    <div class="container">
-      <h2 class="section-title">为每一种创作场景赋能</h2>
-      <div class="cards-grid-3" style="margin-top: 64px;">
-        <div class="scenario-card">
-          <h3>学术与学习整理</h3>
-          <p>导出复杂的 LaTeX 公式和推导过程为 PDF/Word，打造个人学霸笔记，方便复习与论文撰写。</p>
-        </div>
-        <div class="scenario-card">
-          <h3>技术文档沉淀</h3>
-          <p>保留完美的代码高亮与层级结构，导出 Markdown 或 HTML，直接接入团队 Wiki 或个人博客。</p>
-        </div>
-        <div class="scenario-card">
-          <h3>数据分析与协作</h3>
-          <p>将 DeepSeek 生成的 Python 代码与逻辑导出为 ipynb，直接在 Jupyter 中运行验证，无缝衔接工作流。</p>
+        <div class="browser-card reveal">
+          <div class="browser-logo">🦊</div>
+          <h4>Mozilla Firefox</h4>
+          <a href="#" target="_blank">立即安装</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Privacy Highlight -->
-  <section class="fade-in">
+  <!-- 使用教程 -->
+  <section id="guide">
     <div class="container">
-      <div class="privacy-section">
-        <div class="browser-icon"
-          style="background: rgba(255,255,255,0.2); color: white; width: 80px; height: 80px; font-size: 2.5rem; margin: 0 auto 30px;">
-          <img src="images/icon-7.png" style="width: 46px; height: 46px;">
-        </div>
-        <h2>无痕模式：100% 隐私保护</h2>
-        <p>你的数据，只属于你。开启无痕模式后，所有数据与操作均在本地进行高强度加密处理，云端零存储，从技术底层 100% 保护你的隐私与商业机密。</p>
+      <div class="section-title reveal">
+        <h2>三步上手，极简操作</h2>
+        <p>无需复杂配置，1分钟完成对话导出</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="cta-section fade-in">
-    <div class="container">
-      <h2 class="section-title">开始构建你的 DeepSeek 专属知识库</h2>
-      <p class="section-subtitle" style="margin-bottom: 40px;">免费下载 DeepSeek Exporter，让 AI 的每一次回答都发挥最大价值。</p>
-      <div class="hero-buttons">
-        <a href="https://www.aiwhaler.com/" target="_blank" class="btn btn-primary">在线使用</a>
-        <a href="#install" class="btn btn-outline">安装插件</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section id="faq" class="faq-section fade-in">
-    <div class="container">
-      <h2 class="section-title">常见问题 (FAQ)</h2>
-      <p class="section-subtitle">关于 DeepSeek Exporter 的一切疑问，在这里找到答案</p>
-      <div class="faq-list">
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q1: 什么是 DeepSeek Exporter？它有哪些主要功能？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: DeepSeek Exporter 是一款专为 DeepSeek 网页版开发的效率浏览器插件。它的核心功能是一键将 DeepSeek 的聊天记录导出为 Word
-              (.docx)、PDF、Markdown、HTML、ipynb、JSON 和 PNG 等多种格式。此外，它还集成了深度思考过程导出、批量导出、文字高亮标注、本地收藏夹、私密云盘以及无痕加密模式等高级知识管理功能。
-            </p>
-          </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-number">1</div>
+          <h3>安装插件</h3>
+          <p>点击上方对应浏览器的安装按钮，在商店中添加插件至浏览器。</p>
         </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q2: 如何将 DeepSeek 对话导出为 Word 或 PDF 文档？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: 安装 DeepSeek Exporter 插件后，在 DeepSeek 网页端打开你想导出的对话，点击插件图标或对话旁的导出按钮，在弹出的菜单中选择你需要的格式（如 Word 或
-              PDF），即可一键下载保存到本地。插件会自动处理排版，无需复杂的配置。</p>
-          </div>
+        <div class="step reveal">
+          <div class="step-number">2</div>
+          <h3>打开对话</h3>
+          <p>在 DeepSeek 网页端与 AI 进行对话，生成你需要导出的内容。</p>
         </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q3: 导出的文档会保留代码高亮和 LaTeX 数学公式吗？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: 会的。DeepSeek Exporter 采用了高级文档渲染引擎，无论是导出为 Word、PDF 还是 Markdown，都能完整保留原有的代码语法高亮颜色、LaTeX
-              数学公式的正确排版，以及复杂表格的层级结构。确保导出的文档专业且无需二次排版，你还可以在偏好设置中自定义公式的对齐方式。</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q4: 可以导出 DeepSeek 的“深度思考”过程吗？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: 完全可以。当你使用 DeepSeek-R1 等深度思考模式时，插件支持将 AI
-              的“思考过程”一并导出。这在整理学术复盘笔记、逻辑推演记录或技术分析时非常实用，思考过程会以特殊样式在导出的文档中与最终回答区分开来。</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q5: DeepSeek Exporter 支持哪些浏览器安装？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: 我们全面支持主流浏览器，包括 Google Chrome、Microsoft Edge、360 极速/安全浏览器以及 Firefox
-              火狐浏览器。你可以直接在对应浏览器的官方扩展商店中搜索“DeepSeek Exporter”进行免费安装。</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q6: 使用插件和无痕模式，我的隐私和数据安全吗？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: 非常安全。插件本身注重本地化体验，开启“无痕模式”后，你的所有对话数据、高亮标注和操作记录都会在本地进行高强度加密处理，云端绝对不会存储任何信息。这意味着从技术底层 100%
-              保护了你的隐私与商业机密，你可以放心用于工作敏感数据的处理。</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q7: 插件提供的云盘功能有什么用？能实现 DeepSeek 的长期记忆吗？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: 是的。插件为每位用户提供大容量私密云盘。你不仅可以将导出的文档存入云盘方便跨设备随时下载，更核心的价值在于：你可以将云盘中的文档作为“知识库”上传给 DeepSeek。这打破了原有的上下文窗口限制，赋予
-              DeepSeek 专属于你的长期记忆能力。</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>Q8: 收藏夹和批量导出功能如何提升整理效率？</span>
-            <span class="faq-icon">+</span>
-          </div>
-          <div class="faq-answer">
-            <p>A: 面对海量优质对话，插件提供了高效的闭环管理。你可以将高价值的回答一键加入本地收藏夹随时查阅，收藏夹内的内容支持批量导出为 Word
-              文档。同时，在对话列表中，你也可以多选多条对话进行批量导出，免去了逐一复制的繁琐，极大提升了知识沉淀的效率。</p>
-          </div>
+        <div class="step reveal">
+          <div class="step-number">3</div>
+          <h3>选择格式</h3>
+          <p>点击插件图标，选择 Word、Excel 或 PDF 等格式，自动下载到本地。</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- FAQ 扩充以优化 SEO/GEO -->
+  <section id="faq">
+    <div class="container" style="max-width: 800px;">
+      <div class="section-title reveal">
+        <h2>常见问题</h2>
+      </div>
+
+      <div class="faq-item reveal">
+        <div class="faq-question">DeepSeek2Word 支持导出哪些文件格式？</div>
+        <div class="faq-answer">本插件支持将 DeepSeek 对话导出为 Word (.docx)、Excel (.xlsx)、PDF、HTML、Jupyter Notebook
+          (.ipynb)、Markdown (.md)、JSON 以及 PNG 图片格式，满足不同场景的归档和二次编辑需求。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">导出的 Word 文档排版会乱吗？能保留公式和代码吗？</div>
+        <div class="faq-answer">不会乱。插件采用高保真渲染引擎，能完整保留对话中的标题层级、列表、表格结构。同时，LaTeX 数学公式会以可编辑对象形式保留，代码块保留语法高亮，生成的 Word
+          完全可直接用于正式文档。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">如何把 DeepSeek 生成的表格快速转为 Excel？</div>
+        <div class="faq-answer">只需在包含表格的 AI 回答处点击插件图标，选择“导出为 Excel (.xlsx)”即可。插件会自动识别 Markdown
+          表格并转换为带表头高亮的标准电子表格，无需手动复制粘贴和调格式。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">插件支持批量导出一整段长对话吗？</div>
+        <div class="faq-answer">支持。除了单条回答导出外，您可以选择将整个对话窗口内的多条问答记录批量导出为一个综合文档，非常适合保存长篇技术讨论或学习笔记。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">插件会收集我的对话数据或个人隐私吗？</div>
+        <div class="faq-answer">绝对不会。我们承诺不收集任何个人数据。插件的转换和处理过程完全在您浏览器的本地内存中运行，对话内容绝不上传至任何第三方服务器，保障您的数据安全与隐私。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">在 Edge、Chrome、360 和火狐浏览器上的体验一致吗？</div>
+        <div class="faq-answer">完全一致。我们在四大主流浏览器（Microsoft Edge、Google Chrome、360 浏览器、Mozilla
+          Firefox）上进行了深度适配，界面交互与导出质量保持统一，您可以根据使用习惯选择任意浏览器安装。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">导出的 Markdown 文件可以直接用于博客发布吗？</div>
+        <div class="faq-answer">可以。导出的 .md 文件符合标准 Markdown 语法规范，代码块、公式和链接均保留原格式，您可以直接将其复制到 WordPress、Hexo、Ghost
+          等主流博客系统中发布。</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question">安装插件后浏览器会变卡吗？需要联网才能用吗？</div>
+        <div class="faq-answer">不会变卡。插件极其轻量，仅在您点击导出按钮时才激活运行，不占用日常浏览资源。此外，格式转换核心算法运行在本地，安装后无需全程联网即可使用导出功能。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 最终 CTA -->
+  <section class="final-cta">
+    <div class="container reveal">
+      <h2>现在就把 DeepSeek 对话变成可编辑文档</h2>
+      <div class="cta-group" style="justify-content: center;">
+        <a href="https://microsoftedge.microsoft.com/addons/detail/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/mdkigambfjjaflodcfgidocoheoinhha"
+          class="btn-download" target="_blank">📥 安装到 Edge</a>
+        <a href="#" class="btn-download" target="_blank">📥 安装到 Chrome</a>
+        <a href="#" class="btn-download" target="_blank">📥 安装到 Firefox</a>
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-col">
-          <h4>产品</h4>
-          <a href="#features">功能介绍</a>
-          <a href="https://www.aiwhaler.com/help/" target="_blank">使用教程</a>
-        </div>
-        <div class="footer-col">
-          <h4>支持</h4>
-          <a href="https://www.aiwhaler.com/help/" target="_blank">常见问题</a>
-          <a href="https://www.aiwhaler.com/help/" target="_blank">用户反馈</a>
-          <a href="https://www.aiwhaler.com/help/" target="_blank">联系我们</a>
-        </div>
-        <div class="footer-col">
-          <h4>法律</h4>
-          <a href="https://m.aiwhaler.com/privacy-policy-plugin-desp" target="_blank">隐私政策</a>
-          <a href="https://www.aiwhaler.com/ua/" target="_blank">服务条款</a>
-        </div>
-        <div class="footer-col">
-          <h4>工具</h4>
-          <a href="https://www.aiwhaler.com/" target="_blank">在线平台</a>
-        </div>
+    <div class="container footer-content">
+      <div>
+        <p>© 2024 DeepSeek2Word (鲸鱼AI助手出品). All rights reserved.</p>
+        <p>版本: v1.0.2</p>
       </div>
-      <div class="footer-bottom">
-        © 2026 DeepSeek Exporter. All rights reserved. <a href="https://beian.miit.gov.cn/">湘ICP备2024045717号-6</a>
+      <div class="footer-links">
+        <a href="#features">功能</a>
+        <a href="#faq">FAQ</a>
+        <a href="#">隐私政策</a>
+        <a href="#">更新日志</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // Navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 30) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
-    // Mobile menu toggle
-    function toggleMenu() {
-      const navLinks = document.getElementById('navLinks');
-      navLinks.classList.toggle('active');
-    }
-
-    // Smooth scroll & Close mobile menu on link click
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-
-        const target = document.querySelector(targetId);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-          document.getElementById('navLinks').classList.remove('active');
+    // FAQ 折叠面板交互
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        // 实现手风琴效果：点击当前项时关闭其他项（可选）
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) {
+          item.classList.add('active');
         }
       });
     });
 
-    // Scroll fade-in animation with Intersection Observer
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 滚动渐现动画
+    const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.fade-in').forEach(el => {
-      observer.observe(el);
+    reveals.forEach(reveal => {
+      observer.observe(reveal);
     });
-
-    // FAQ Accordion Toggle
-    function toggleFaq(element) {
-      const faqItem = element.parentElement;
-      // 可选：如果希望每次只展开一个，可以取消下面几行的注释
-      /*
-      document.querySelectorAll('.faq-item').forEach(item => {
-          if(item !== faqItem) item.classList.remove('active');
-      });
-      */
-      faqItem.classList.toggle('active');
-    }
-
-    // SEO Schema Markup (JSON-LD) for GEO/SEO Optimization
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "什么是 DeepSeek Exporter？它有哪些主要功能？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "DeepSeek Exporter 是一款专为 DeepSeek 网页版开发的效率浏览器插件。它的核心功能是一键将 DeepSeek 的聊天记录导出为 Word (.docx)、PDF、Markdown、HTML、ipynb、JSON 和 PNG 等多种格式。此外，它还集成了深度思考过程导出、批量导出、文字高亮标注、本地收藏夹、私密云盘以及无痕加密模式等高级知识管理功能。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "如何将 DeepSeek 对话导出为 Word 或 PDF 文档？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "安装 DeepSeek Exporter 插件后，在 DeepSeek 网页端打开你想导出的对话，点击插件图标或对话旁的导出按钮，在弹出的菜单中选择你需要的格式（如 Word 或 PDF），即可一键下载保存到本地。插件会自动处理排版，无需复杂的配置。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "导出的文档会保留代码高亮和 LaTeX 数学公式吗？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "会的。DeepSeek Exporter 采用了高级文档渲染引擎，无论是导出为 Word、PDF 还是 Markdown，都能完整保留原有的代码语法高亮颜色、LaTeX 数学公式的正确排版，以及复杂表格的层级结构。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "可以导出 DeepSeek 的“深度思考”过程吗？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "完全可以。当你使用 DeepSeek-R1 等深度思考模式时，插件支持将 AI 的“思考过程”一并导出。这在整理学术复盘笔记、逻辑推演记录或技术分析时非常实用。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "DeepSeek Exporter 支持哪些浏览器安装？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "我们全面支持主流浏览器，包括 Google Chrome、Microsoft Edge、360 极速/安全浏览器以及 Firefox 火狐浏览器。你可以直接在对应浏览器的官方扩展商店中搜索进行免费安装。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "使用插件和无痕模式，我的隐私和数据安全吗？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "非常安全。插件本身注重本地化体验，开启“无痕模式”后，你的所有对话数据、高亮标注和操作记录都会在本地进行高强度加密处理，云端绝对不会存储任何信息。从技术底层 100% 保护了你的隐私与商业机密。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "插件提供的云盘功能有什么用？能实现 DeepSeek 的长期记忆吗？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "是的。插件为每位用户提供大容量私密云盘。你不仅可以将导出的文档存入云盘方便跨设备随时下载，更核心的价值在于：你可以将云盘中的文档作为“知识库”上传给 DeepSeek。这打破了原有的上下文窗口限制，赋予 DeepSeek 专属于你的长期记忆能力。"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "收藏夹和批量导出功能如何提升整理效率？",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "面对海量优质对话，插件提供了高效的闭环管理。你可以将高价值的回答一键加入本地收藏夹随时查阅，收藏夹内的内容支持批量导出为 Word 文档。同时，在对话列表中，你也可以多选多条对话进行批量导出，免去了逐一复制的繁琐。"
-          }
-        }
-      ]
-    };
-
-    // 动态将 Schema 注入到页面 head 中
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(faqSchema);
-    document.head.appendChild(script);
-
   </script>
 </body>
 
