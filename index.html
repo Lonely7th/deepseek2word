@@ -7,19 +7,18 @@
   <title>DeepSeek2Word - 一键导出DeepSeek对话为Word/Excel/PDF</title>
   <meta name="description"
     content="轻量、简洁、易操作。完整保留LaTeX公式、代码高亮、表格与标题层级，支持Edge/Chrome/360/火狐四大浏览器一键导出Word/Excel/PDF/Markdown等格式。">
-  <meta property="og:title" content="DeepSeek Exporter - AI转Word">
+  <meta property="og:title" content="DeepSeek2Word - DeepSeek转Word">
   <meta property="og:description"
-    content="DeepSeek Exporter 是专为 DeepSeek 打造的效率插件。完美还原代码高亮、LaTeX 公式与表格层级。支持 Word、PDF、Markdown 等 7 种格式导出，让你的 AI 对话秒变专业文档。">
-  <meta property="og:site_name" content="DeepSeek Exporter">
-  <meta property="og:url" content="https://www.aibusgo.com/">
+    content="轻量、简洁、易操作。完整保留LaTeX公式、代码高亮、表格与标题层级，支持Edge/Chrome/360/火狐四大浏览器一键导出Word/Excel/PDF/Markdown等格式。">
+  <meta property="og:site_name" content="DeepSeek2Word">
+  <meta property="og:url" content="https://www.deepseek2word.com/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_CN">
   <meta name="keywords"
-    content="DeepSeek Exporter,DeepSeek-Exporter,AI公式转Word,LaTeX公式转Word,Markdown转Word,DeepSeek转Word,AI对话转Word,DeepSeek2Word,DeepShare,Chat2File">
-  <link rel="canonical" href="https://www.aibusgo.com/">
+    content="DeepSeek2Word,DeepSeek转表格,AI公式转Word,LaTeX公式转Word,Markdown转Word,DeepSeek转Word,AI对话转Word,DeepShare,Chat2File">
+  <link rel="canonical" href="https://www.deepseek2word.com/">
   <link rel="icon" href="images/logo.png" />
   <link rel="apple-touch-icon" href="images/logo.png" />
-  <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -108,7 +107,7 @@
     .logo {
       font-size: 1.5rem;
       font-weight: 800;
-      color: var(--primary-color);
+      color: #000000;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -151,10 +150,9 @@
       background: var(--primary-color);
       color: var(--white);
       padding: 10px 24px;
-      border-radius: 8px;
+      border-radius: 80px;
       font-weight: 600;
       transition: all 0.3s;
-      box-shadow: var(--shadow-md);
     }
 
     .nav-btn:hover {
@@ -181,7 +179,7 @@
     }
 
     .hero h1 {
-      font-size: 3.2rem;
+      font-size: 3.1rem;
       line-height: 1.15;
       margin-bottom: 20px;
       color: var(--secondary-color);
@@ -282,7 +280,7 @@
       box-shadow: var(--shadow-lg);
       border: 1px solid rgba(226, 232, 240, 0.8);
       width: 100%;
-      max-width: 400px;
+      max-width: 600px;
       z-index: 2;
       animation: float 6s ease-in-out infinite;
     }
@@ -657,14 +655,14 @@
   <!-- 导航栏 -->
   <nav>
     <div class="container nav-container">
-      <div class="logo">🐋 DeepSeek2Word</div>
+      <div class="logo"><img src="images/logo.png" style="width: 40px; height: 40px;"> DeepSeek2Word</div>
       <ul class="nav-links">
         <li><a href="#features">功能特性</a></li>
         <li><a href="#browsers">浏览器支持</a></li>
         <li><a href="#guide">使用教程</a></li>
         <li><a href="#faq">常见问题</a></li>
       </ul>
-      <a href="#download" class="nav-btn">立即安装</a>
+      <a href="#download" class="nav-btn" style="background: #2c2c2c;">立即安装</a>
     </div>
   </nav>
 
@@ -672,15 +670,13 @@
   <header class="hero" id="download">
     <div class="container hero-content">
       <div class="hero-text">
-        <h1>一键将 DeepSeek 对话导出为<br><span class="gradient-text">Word / Excel / PDF</span></h1>
-        <p>轻量、简洁、易操作。完整保留 LaTeX 公式、代码高亮、表格与标题层级，支持四大主流浏览器。</p>
+        <h1>导出 DeepSeek 对话为<br><span class="gradient-text">Word / Excel / PDF</span></h1>
+        <p>专为 DeepSeek 打造的浏览器插件，轻量、简洁、易操作。完整保留 LaTeX 公式、代码高亮、表格与标题层级，支持大部分主流浏览器。</p>
 
         <div class="cta-group">
           <a href="https://microsoftedge.microsoft.com/addons/detail/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/mdkigambfjjaflodcfgidocoheoinhha"
-            class="btn-download primary" target="_blank">📥 安装到 Edge</a>
-          <a href="#" class="btn-download" target="_blank">📥 Chrome</a>
-          <a href="#" class="btn-download" target="_blank">📥 360 浏览器</a>
-          <a href="#" class="btn-download" target="_blank">📥 火狐 Firefox</a>
+            class="btn-download primary" target="_blank"><img src="images/lowcode-2406134.png" style="width: 30px; height: 30px;"> 安装到 Edge</a>
+          <a href="https://chromewebstore.google.com/detail/deepseek%E5%AF%BC%E5%87%BA%E8%A1%A8%E6%A0%BC/bfdajobhiblfiapmmlhaabkabdjgnkno" class="btn-download" target="_blank"><img src="images/lowcode-2406140.png" style="width: 30px; height: 30px;"> 安装到 Chrome</a>
         </div>
 
         <div class="trust-badge">
@@ -693,7 +689,7 @@
         <div class="glow-orb"></div>
         <div class="visual-card">
           <!-- 预留自定义图片位置：请替换 src 为你的图片路径 -->
-          <img src="your-custom-image.png" alt="DeepSeek2Word 插件一键导出 Word 和 Excel 演示" class="hero-image">
+          <img src="images/banner2.png" alt="DeepSeek2Word 插件一键导出 Word 和 Excel 演示" class="hero-image">
         </div>
       </div>
     </div>
@@ -708,32 +704,32 @@
       </div>
       <div class="feature-grid">
         <div class="card reveal">
-          <span class="card-icon">📄</span>
+          <span class="card-icon"><img src="images/icon-1.png" style="width: 60px; height: 60px;"></span>
           <h3>多格式一键导出</h3>
           <p>支持 Word、Excel、PDF、HTML、Markdown、JSON 等 8+ 格式，覆盖文档归档、技术记录与数据分析全场景。</p>
         </div>
         <div class="card reveal">
-          <span class="card-icon">🧮</span>
+          <span class="card-icon"><img src="images/icon-6.png" style="width: 60px; height: 60px;"></span>
           <h3>复杂排版原样保留</h3>
           <p>完整保留标题层级、列表结构、LaTeX 公式、代码高亮，生成的 Word 文档完全可编辑。</p>
         </div>
         <div class="card reveal">
-          <span class="card-icon">📊</span>
+          <span class="card-icon"><img src="images/icon-2.png" style="width: 60px; height: 60px;"></span>
           <h3>表格自动转 Excel</h3>
           <p>自动识别 AI 回答中的表格数据，一键保存为标准 .xlsx 文件，表头自动高亮，告别手动复制粘贴。</p>
         </div>
         <div class="card reveal">
-          <span class="card-icon">📚</span>
+          <span class="card-icon"><img src="images/icon-5.png" style="width: 60px; height: 60px;"></span>
           <h3>单条与批量导出</h3>
           <p>支持将单条 AI 回答导出，也支持整段或多段对话批量导出，灵活适配你的整理需求。</p>
         </div>
         <div class="card reveal">
-          <span class="card-icon">🚀</span>
+          <span class="card-icon"><img src="images/icon-3.png" style="width: 60px; height: 60px;"></span>
           <h3>轻量简洁零学习</h3>
           <p>安装包极小，不占用内存，无广告无冗余功能。点击插件图标即可导出，真正开箱即用。</p>
         </div>
         <div class="card reveal">
-          <span class="card-icon">🔒</span>
+          <span class="card-icon"><img src="images/icon-4.png" style="width: 60px; height: 60px;"></span>
           <h3>安全隐私无忧</h3>
           <p>所有对话内容仅在本地处理，绝不上传服务器。插件不收集任何个人数据，保护你的隐私。</p>
         </div>
@@ -750,25 +746,25 @@
       </div>
       <div class="browser-grid">
         <div class="browser-card reveal">
-          <div class="browser-logo">🧭</div>
+          <div class="browser-logo"><img src="images/lowcode-2406134.png" style="width: 60px; height: 60px;"></div>
           <h4>Microsoft Edge</h4>
           <a href="https://microsoftedge.microsoft.com/addons/detail/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/mdkigambfjjaflodcfgidocoheoinhha"
             target="_blank">立即安装</a>
         </div>
         <div class="browser-card reveal">
-          <div class="browser-logo">🌐</div>
+          <div class="browser-logo"><img src="images/lowcode-2406140.png" style="width: 60px; height: 60px;"></div>
           <h4>Google Chrome</h4>
-          <a href="#" target="_blank">立即安装</a>
+          <a href="https://chromewebstore.google.com/detail/deepseek%E5%AF%BC%E5%87%BA%E8%A1%A8%E6%A0%BC/bfdajobhiblfiapmmlhaabkabdjgnkno" target="_blank">立即安装</a>
         </div>
         <div class="browser-card reveal">
-          <div class="browser-logo">🛡️</div>
+          <div class="browser-logo"><img src="images/lowcode-2406123.png" style="width: 60px; height: 60px;"></div>
           <h4>360 浏览器</h4>
-          <a href="#" target="_blank">立即安装</a>
+          <a href="https://ext.se.360.cn/#/extension-detail?id=hgahdgilffiglaefnmnkoclmigdaighg" target="_blank">立即安装</a>
         </div>
         <div class="browser-card reveal">
-          <div class="browser-logo">🦊</div>
+          <div class="browser-logo"><img src="images/lowcode-2458186.jfif" style="width: 60px; height: 60px;"></div>
           <h4>Mozilla Firefox</h4>
-          <a href="#" target="_blank">立即安装</a>
+          <a href="https://addons.mozilla.org/zh-CN/firefox/addon/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/" target="_blank">立即安装</a>
         </div>
       </div>
     </div>
@@ -854,9 +850,9 @@
       <h2>现在就把 DeepSeek 对话变成可编辑文档</h2>
       <div class="cta-group" style="justify-content: center;">
         <a href="https://microsoftedge.microsoft.com/addons/detail/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/mdkigambfjjaflodcfgidocoheoinhha"
-          class="btn-download" target="_blank">📥 安装到 Edge</a>
-        <a href="#" class="btn-download" target="_blank">📥 安装到 Chrome</a>
-        <a href="#" class="btn-download" target="_blank">📥 安装到 Firefox</a>
+          class="btn-download" target="_blank"><img src="images/lowcode-2406134.png" style="width: 30px; height: 30px;"> 安装到 Edge</a>
+        <a href="https://chromewebstore.google.com/detail/deepseek%E5%AF%BC%E5%87%BA%E8%A1%A8%E6%A0%BC/bfdajobhiblfiapmmlhaabkabdjgnkno" class="btn-download" target="_blank"><img src="images/lowcode-2406140.png" style="width: 30px; height: 30px;"> 安装到 Chrome</a>
+        <a href="https://addons.mozilla.org/zh-CN/firefox/addon/deepseek2word-ai%E5%AF%B9%E8%AF%9D%E5%AF%BC%E5%87%BA%E5%B7%A5%E5%85%B7/" class="btn-download" target="_blank"><img src="images/lowcode-2458186.jfif" style="width: 30px; height: 30px;"> 安装到 Firefox</a>
       </div>
     </div>
   </section>
@@ -865,13 +861,13 @@
   <footer>
     <div class="container footer-content">
       <div>
-        <p>© 2024 DeepSeek2Word (鲸鱼AI助手出品). All rights reserved.</p>
-        <p>版本: v1.0.2</p>
+        <p>© 2026 DeepSeek2Word. All rights reserved.</p>
+        <p>Version: v1.0.2</p>
       </div>
       <div class="footer-links">
         <a href="#features">功能</a>
         <a href="#faq">FAQ</a>
-        <a href="#">隐私政策</a>
+        <a href="https://m.aiwhaler.com/iwhale">隐私政策</a>
         <a href="#">更新日志</a>
       </div>
     </div>
