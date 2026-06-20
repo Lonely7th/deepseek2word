@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.aitoword.chat/sitemap.xml
+Sitemap: https://www.deepseek2word.com/sitemap.xml
