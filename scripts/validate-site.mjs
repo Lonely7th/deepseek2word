@@ -53,6 +53,10 @@ for (const file of htmlFiles) {
   if (!/<main\b/i.test(html)) failures.push(`${relative}: missing main landmark`);
   if (!is404 && !canonical) failures.push(`${relative}: missing canonical`);
   if (is404 && !/name="robots"\s+content="noindex,follow"/i.test(html)) failures.push(`${relative}: 404 must be noindex,follow`);
+  if (!/rel="icon"\s+href="\/favicon\.ico"\s+sizes="any"/i.test(html)) failures.push(`${relative}: missing root favicon.ico declaration`);
+  if (!/rel="icon"\s+type="image\/png"\s+sizes="32x32"\s+href="\/favicon-32x32\.png"/i.test(html)) failures.push(`${relative}: missing 32x32 favicon declaration`);
+  if (!/rel="icon"\s+type="image\/png"\s+sizes="16x16"\s+href="\/favicon-16x16\.png"/i.test(html)) failures.push(`${relative}: missing 16x16 favicon declaration`);
+  if (!/rel="apple-touch-icon"\s+sizes="180x180"\s+href="\/apple-touch-icon\.png"/i.test(html)) failures.push(`${relative}: missing apple touch icon declaration`);
 
   if (titles.has(title)) failures.push(`${relative}: duplicate title with ${titles.get(title)}`);
   titles.set(title, relative);
