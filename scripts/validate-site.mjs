@@ -32,6 +32,42 @@ function localTarget(url) {
   return path.join(root, decoded.slice(1), "index.html");
 }
 
+function parseRobots(content) {
+  const groups = [];
+  const sitemaps = [];
+  let group = null;
+
+  for (const rawLine of content.split(/\r?\n/)) {
+    const line = rawLine.replace(/\s*#.*$/, "").trim();
+    if (!line) continue;
+    const match = line.match(/^([^:]+):\s*(.*)$/);
+    if (!match) continue;
+    const directive = match[1].trim().toLowerCase();
+    const value = match[2].trim();
+
+    if (directive === "sitemap") {
+      sitemaps.push(value);
+    } else if (directive === "user-agent") {
+      if (!group || group.rules.length) {
+        group = { agents: [], rules: [] };
+        groups.push(group);
+      }
+      group.agents.push(value.toLowerCase());
+    } else if ((directive === "allow" || directive === "disallow") && group) {
+      group.rules.push({ directive, value });
+    }
+  }
+
+  return { groups, sitemaps };
+}
+
+function isAllowed(pathname, rules) {
+  const matching = rules
+    .filter(({ value }) => value && pathname.startsWith(value))
+    .sort((a, b) => b.value.length - a.value.length || (a.directive === "allow" ? -1 : 1));
+  return matching[0]?.directive !== "disallow";
+}
+
 const allFiles = await walk(root);
 const htmlFiles = allFiles.filter((file) => file.endsWith(".html") && !ignoredHtml.has(path.basename(file)));
 const failures = [];
@@ -81,8 +117,31 @@ for (const file of htmlFiles) {
 }
 
 const sitemap = await fs.readFile(path.join(root, "sitemap.xml"), "utf8");
+const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/gi)].map((match) => match[1].trim());
 for (const canonical of canonicals.keys()) {
   if (!sitemap.includes(`<loc>${canonical}</loc>`)) failures.push(`sitemap.xml: missing ${canonical}`);
+}
+
+try {
+  const robots = await fs.readFile(path.join(root, "robots.txt"), "utf8");
+  const { groups, sitemaps } = parseRobots(robots);
+  const publicGroup = groups.find(({ agents }) => agents.includes("*"));
+  const expectedSitemap = sitemapUrls.length ? new URL("/sitemap.xml", sitemapUrls[0]).href : "";
+
+  if (!publicGroup) {
+    failures.push("robots.txt: missing User-agent: * rules");
+  } else {
+    for (const pageUrl of sitemapUrls) {
+      const pathname = new URL(pageUrl).pathname;
+      if (!isAllowed(pathname, publicGroup.rules)) failures.push(`robots.txt: blocks sitemap page ${pathname}`);
+    }
+  }
+  if (!expectedSitemap || !sitemaps.includes(expectedSitemap)) {
+    failures.push(`robots.txt: missing Sitemap: ${expectedSitemap || "URL derived from sitemap.xml"}`);
+  }
+} catch (error) {
+  if (error.code === "ENOENT") failures.push("robots.txt: file is missing");
+  else throw error;
 }
 
 if (failures.length) {
@@ -90,5 +149,5 @@ if (failures.length) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exitCode = 1;
 } else {
-  console.log(`Validated ${htmlFiles.length} HTML pages: titles, descriptions, H1s, canonicals, JSON-LD, local links, images and sitemap are consistent.`);
+  console.log(`Validated ${htmlFiles.length} HTML pages: titles, descriptions, H1s, canonicals, JSON-LD, local links, images, sitemap and robots.txt are consistent.`);
 }
