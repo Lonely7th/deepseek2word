@@ -41,4 +41,13 @@
       window.dispatchEvent(new CustomEvent("ds2w:download", { detail }));
     });
   });
+
+  document.querySelectorAll("[data-online]").forEach((link) => {
+    link.addEventListener("click", () => {
+      const detail = { page: location.pathname, href: link.href };
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "online_use_click", ...detail });
+      window.dispatchEvent(new CustomEvent("ds2w:online", { detail }));
+    });
+  });
 })();
